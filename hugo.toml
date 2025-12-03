@@ -1,0 +1,47 @@
+baseURL = "https://scratchbuffer.net"
+title = "ScratchBuffer"
+
+languageCode = "en-us"
+
+theme = "hugo-basic-starter-template"
+
+[markup]
+[markup.highlight]
+style = "friendly"
+
+[taxonomies]
+tag = "tags"
+
+# gohugo.io/configuration/menus/
+[menus]
+[[menus.main]]
+name = 'Home'
+pageRef = '/'
+weight = 10
+
+[[menus.main]]
+name = 'Section A'
+pageRef = '/section-a'
+weight = 20
+
+[[menus.main]]
+name = 'Section B'
+pageRef = '/section-b'
+weight = 30
+
+[[menus.main]]
+name = 'Section C'
+pageRef = '/section-c'
+weight = 40
+
+[[menus.main]]
+name = 'Tags'
+pageRef = '/tags'
+weight = 50
+
+# Run minify to prevent Hugo template limitations from producing irregular whitespace;
+# retain newlines in output in order to still have readable output during development.
+#[minify]
+#[minify.tdewolff]
+#[minify.tdewolff.html]
+#keepWhitespace = true
