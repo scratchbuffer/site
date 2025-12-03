@@ -1,0 +1,10 @@
+# Hugo build output
+.hugo_build.lock
+**/public/*
+
+# Editor configs
+**/.idea/*
+**/.vscode/*
+
+# Filesystem artifacts
+**/.DS_Store
