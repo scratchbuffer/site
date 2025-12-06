@@ -1,1 +1,22 @@
-<script defer src="https://cloud.umami.is/script.js" data-website-id="8c5bccc5-ba91-4c2d-a382-50fb22030325"></script>
+{{/*<script defer src="https://cloud.umami.is/script.js"></script>*/}}
+{{- with resources.Get "js/analytics.js" }}
+    {{- $opts := dict
+    "minify" (not hugo.IsDevelopment)
+    "sourceMap" (cond hugo.IsDevelopment "external" "")
+    "targetPath" "js/analytics.js"
+    }}
+    {{- with . | js.Build $opts }}
+        {{- if hugo.IsDevelopment }}
+          <script src="{{ .RelPermalink }}"></script>
+        {{- else }}
+            {{- with . | fingerprint }}
+              <script
+                src="{{ .RelPermalink }}"
+                integrity="{{ .Data.Integrity }}"
+                crossorigin="anonymous"
+                data-website-id="8c5bccc5-ba91-4c2d-a382-50fb22030325">
+              </script>
+            {{- end }}
+        {{- end }}
+    {{- end }}
+{{- end }}
