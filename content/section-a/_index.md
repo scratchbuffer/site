@@ -2,7 +2,7 @@
 title = "Section A"
 date = 2025-01-01
 draft = false
-weight = 1
+weight = 2
 +++
 Section A has only child pages, no child sections.
 
