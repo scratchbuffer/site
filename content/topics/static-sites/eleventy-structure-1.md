@@ -113,6 +113,11 @@ Or delete it altogether - you cannot `set license=""` as the `npm pkg set` comma
 npm pkg delete license
 ```
 
+In the interest of minimalism, we also do not need a main entrypoint script, which defaulted to `index.js`:
+```shell
+npm pkg delete main
+```
+
 ## 2. Install and Run Eleventy
 
 ### 2.1 Install
@@ -141,19 +146,30 @@ We have no templates, content, layouts, or input of any kind so we should see th
 By default, Eleventy writes the output to `<project root>/_site`,
 but without any files to it does not bother to create the `_site` directory.
 
-We can even run the development server and see that it also produces nothing:
+We can even run the development server:
 ```shell
 npx @11ty/eleventy --serve
+```
+and see that it also produces nothing:
+```console
 [11ty] Wrote 0 files in 0.04 seconds (v3.1.2)
 [11ty] Watching…
 [11ty] Server at http://localhost:8080/
-
 ```
 
 Navigating to any `localhost:8080` URL in the browser will get the same result:
-* [http://localhost:8080/](http://localhost:8080/): `Cannot GET /`
-* [http://localhost:8080/hello](http://localhost:8080/hello): `Cannot GET /hello`
+* [http://localhost:8080/](http://localhost:8080/) shows `Cannot GET /`
+* [http://localhost:8080/hello](http://localhost:8080/hello) shows `Cannot GET /hello`
 * ...etc.
+
+To tidy up, we can place the build and run commands in `package.json`'s `scripts` key:
+```json
+"scripts": {
+    "build": "npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve"
+  },
+```
+and run them with `npm run build` or `npm run serve`.
 
 ### 2.3 Stop
 
