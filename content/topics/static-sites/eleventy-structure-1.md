@@ -103,30 +103,29 @@ Fix this:
 npm pkg set type="module"
 ```
 
-You may also want to change the license, since no one knows what the ISC license is:
+You may also want to update other keys:
 ```shell
 npm pkg set license="MIT"
+npm pkg set version="0.0.0-alpha.0"
 ```
 
-Or delete it altogether - you cannot `set license=""` as the `npm pkg set` command does not accept empty values:
-```shell
-npm pkg delete license
-```
-
-In the interest of minimalism, we also do not need a main entrypoint script, which defaulted to `index.js`:
+Or delete them altogether - we do not have an entrypoint script,
+so you can drop the "main" key and anything else you are uninterested in.
 ```shell
 npm pkg delete main
+npm pkg delete description keywords author
 ```
 
 ## 2. Install and Run Eleventy
 
 ### 2.1 Install
 
-Install as a "normal" dependency, or make Eleventy a dev dependency:
+Install as a regular or dev dependency -
+the Eleventy package only generates the static site and is not required at runtime:
 ```shell
 npm install @11ty/eleventy
 ```
-or
+or:
 ```shell
 npm install --save-dev @11ty/eleventy
 ```
