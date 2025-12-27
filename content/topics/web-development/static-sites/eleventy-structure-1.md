@@ -32,16 +32,7 @@ We will:
 
 ## 0. Prerequisites
 
-0.1 ### Install Node and NPM
-
-Using [`nvm`](https://github.com/nvm-sh/nvm) is recommended.
-After NVM itself is set up, keep it simple and install an LTS version of Node and NPM:
-```shell
-nvm install --lts
-nvm use --lts
-```
-
-### 0.2 Make Tool Selections
+### 0.1 Make Tool Selections
 
 #### ECMAScript Modules (ESM), Not CommonJS
 
@@ -70,6 +61,15 @@ This choice is a bit personal, but I made a selection based on a few criteria:
 This leaves... Liquid!
 Liquid is straightforward, actively maintained, popular, and has just the right amount of features
 to enable any layout we could want without complex logic.
+
+### 0.2 Install Node and NPM
+
+Using [`nvm`](https://github.com/nvm-sh/nvm) is recommended.
+After NVM itself is set up, keep it simple and install an LTS version of Node and NPM:
+```shell
+nvm install --lts
+nvm use --lts
+```
 
 ## 1. Initialize NPM Project
 
@@ -180,3 +180,7 @@ The magic "no-config" default configurations for "templates", "includes", and "l
 obscure quite a bit of how the system works and will be unfamiliar for users of other static site generators.
 
 In order to understand Eleventy better, we will have to delay gratification just a bit longer.
+
+## Initialize Eleventy Config with TypeScript
+
+We will assume for now that 
