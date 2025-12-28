@@ -1,5 +1,5 @@
 +++
-title = "Modern JavaScript & TypeScript Project Setup with NPM"
+title = "Modern TypeScript Project Setup with NPM"
 description = "Initialize and Configure Packages, Type Checkers, Linters, and Formatters"
 
 date = 2025-12-13
@@ -120,7 +120,7 @@ npm pkg delete main
 npm pkg delete description keywords author
 ```
 
-## 2. Create a Basic Node Application in JavaScript
+## 2. Create a Basic Node.js Application in JavaScript
 
 No TypeScript yet!
 Focus on vanilla Node package usage first,
@@ -147,5 +147,230 @@ And note the new `dependencies` declaration in `package.json`:
   },
 ```
 
+### 2.2 Create a Node Echo Server
 
+Add the following code (expanded upon from the Node.js docs [example](https://nodejs.org/docs/latest/api/synopsis.html#example))
+to `src/server.ts` - Node will still run the code regardless of the `.ts` extension:
 
+```js
+import {createServer} from 'node:http';
+
+const hostname = '127.0.0.1';
+const port = 8080;
+
+const server = createServer(
+    (req, res) => {
+        let reqBody = '';
+
+        req.on('data', (chunk) => {
+            reqBody += chunk.toString();
+        });
+
+        req.on('end', () => {
+            res.setHeader('Content-Type', 'application/json');
+
+            const response = {
+                body: reqBody,
+            };
+
+            res.end(JSON.stringify(response));
+        });
+
+        req.on('error', (error) => {
+            res.statusCode = 500;
+            res.end('Internal Server Error');
+        });
+    }
+);
+
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+```
+
+### 2.3 Run the Echo Server
+
+Run:
+```shell
+node src/server.ts
+```
+
+The console should output:
+```console
+Server running at http://127.0.0.1:8080/
+```
+
+In another terminal window, use curl to talk to the echo server:
+```shell
+curl http://localhost:8080 -d 'hello, world'
+```
+
+And check the response:
+```console
+{"body":"hello, world"}
+```
+
+### 2.4 Add the Node Run Command to `package.json` Scripts
+
+Fill in the `scripts` key with the command we just used -
+I chose `dev-node` to differentiate with Typescript commands we will add later:
+```json
+"scripts": {
+  "dev-js": "node src/server.ts"
+},
+```
+
+While this command is short, using the `scripts` will help us keep track of all the commands for the project.
+Now run:
+```shell
+npm run dev-js
+```
+
+and Node will echo the command before it runs:
+```console
+> js-ts-npm-starter-demo@0.0.0-alpha.0 dev-js
+> node src/server.ts
+
+Server running at http://127.0.0.1:8080/
+```
+
+Now we can convert to TypeScript!
+
+## 3. Convert the Application to TypeScript
+
+### 3.1 Install a TypeScript Execution Engine
+
+We can choose between [`ts-node`](https://typestrong.org/ts-node/) and [`tsx`](https://tsx.is/).
+
+The differences are minimal for our current needs - `ts-node` compiles the TypeScript code before running,
+while `tsx` skips this step and just runs it.
+The compilation may be slow on a large project and may developers prefer the faster startup,
+as they already have an IDE plugin checking types as they work.
+
+We can just choose `tsx` for now:
+```shell
+npm install --save-dev tsx
+```
+
+### 3.2 Add Types to the Echo Server Code
+
+### 3.2.1 Import Types Already In Use
+
+While not strictly necessary, we can import the Node request and response types `IncomingMessage` and `ServerResponse`.
+We are already using these as the `req` and `res` variables in our handler function, we just could not see them!
+Importing the types can help with editor tooling for autocomplete and jumping to type documentation.
+
+First we must install the `@types/node` package to expose the definitions.
+It can be a bit tricky - I installed the latest LTS Node version with NVM and got version `24.12.0`,
+but if I just run `npm install @types/node`, I will get the latest `@types/node` package which is on version 25.
+Further, the `@types/node` package does not release a version for every single minor or patch version of `node`.
+
+Instead, just restrict it to the same major version:
+
+```shell
+npm install --save-dev @types/node@24
+```
+
+Now we can add types to our Node server handler function.
+This line:
+```js
+(req, res) => {
+```
+becomes:
+```ts
+(req: IncomingMessage, res: ServerResponse) => {
+```
+
+### 3.2.2 Define Custom Types
+
+We can also add our own types to make the code a bit cleaner -
+I am not a fan of having important strings sitting inline in code,
+like the `'data'` `'end'` and `'error'` events that we listen for in the handler with `req.on('data', ...)`, etc.
+These event definitions from the parent class of `IncomingMessage`, `stream.Readable`,
+but a quick scan of the type docs show us that there are no exported constants we can use in place of inline strings.
+
+We can convert these to a TypeScript enum:
+```ts
+enum StreamEvent {
+    DATA = 'data',
+    END = 'end',
+    ERROR = 'error',
+}
+```
+
+and replace bits like `req.on('end', ...)` with `req.on(StreamEvent.END, ...)` - and we will get autocomplete!
+
+The full updated code is:
+```ts
+import {createServer, IncomingMessage, ServerResponse} from 'node:http';
+
+enum StreamEvent {
+    DATA = 'data',
+    END = 'end',
+    ERROR = 'error',
+}
+
+const hostname = '127.0.0.1';
+const port = 8080;
+
+const server = createServer(
+    (req: IncomingMessage, res: ServerResponse) => {
+        let reqBody = '';
+
+        req.on(StreamEvent.DATA, (chunk) => {
+            reqBody += chunk.toString();
+        });
+
+        req.on(StreamEvent.END, () => {
+            res.setHeader('Content-Type', 'application/json');
+
+            const response = {
+                msg: reqBody,
+            };
+
+            res.end(JSON.stringify(response));
+        });
+
+        req.on(StreamEvent.ERROR, (error) => {
+            res.statusCode = 500;
+            res.end('Internal Server Error');
+        });
+    }
+);
+
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+```
+
+### 3.3 Run the Echo Server with `tsx`
+
+If `tsx` is not installed globally, the command may not be available directly from the command line.
+Instead we can use Node's built-in `npx` which runs arbitrary commands from an npm package:
+
+```shell
+npx tsx src/server.ts
+```
+
+That will run the server, which we can check again with `curl`:
+```shell
+curl http://localhost:8080 -d 'hello, world'
+```
+
+Finally, we can add the command to the `package.json` scripts as we did before.
+When using `npm run` with these scripts, we do not need `npx` as long as the package we are calling is installed:
+
+```ts
+"scripts": {
+    "dev-js": "node src/server.ts",
+    "dev-ts": "tsx ./src/server.ts"
+  },
+```
+
+As before, `npm run dev-ts` will echo the command:
+```console
+> js-ts-npm-starter-demo@0.0.0-alpha.0 dev-ts
+> tsx ./src/server.ts
+
+Server running at http://127.0.0.1:8080/
+```
