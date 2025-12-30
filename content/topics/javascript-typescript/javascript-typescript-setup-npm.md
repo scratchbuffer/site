@@ -1,6 +1,6 @@
 +++
-title = "Modern TypeScript Project Setup with NPM"
-description = "Initialize and Configure Packages, Type Checkers, Linters, and Formatters"
+title = "Modern TypeScript Project Setup with NPM, Part 1"
+description = "Write, Run, and Compile TypeScript with Node.js, `tsx`, and `tsc`"
 
 date = 2025-12-13
 
@@ -29,12 +29,12 @@ I have restricted the problem area in two primary ways:
 
 ## Goals
 
-We will initialize and configure:
+We will:
 
-* A basic NPM project, with development and production dependencies
-* TypeScript, as a type checker
-* ESLint, to lint for modern JavaScript (ECMAScript) standards
-* Prettier, to maintain consistent formatting
+* Initialize and configure a basic Node.js project with NPM
+* Utilize existing TypeScript types from Node packages and define our own custom types
+* Run the TypeScript application with `tsx`
+* Configure the `tsc` compiler to check and compile our TypeScript code
 
 ## 0. Prerequisites
 
@@ -51,19 +51,6 @@ Node first shipped with module support in 2019 with Node version 12.
 As lamented above, we cannot opt out of the JavaScript ecosystem completely without becoming monks
 (writing Rust to compile to WebAssembly).
 We _can_ however be good citizens of this apocalyptic ecosystem and use types in our software.
-
-#### 0.1.3 ESLint, Not the Other Linters
-
-ESLint is the standard, TSLint is deprecated.
-There are certainly others, but you can explore them on your own time.
-This is my blog!
-
-#### 0.1.4 Prettier, Not the Other Formatters
-
-Prettier is a highly opinionated formatter,
-and has become an industry standard despite the frustrations that opinionation can cause.
-I do not love some of Prettier's formatting myself, but I dislike fiddling and bikeshedding over formatting even more.
-Best to accept it and move on!
 
 ### 0.2 Install Node and NPM
 
@@ -256,22 +243,24 @@ npm install --save-dev tsx
 
 ### 3.2.1 Import Types Already In Use
 
-While not strictly necessary, we can import the Node request and response types `IncomingMessage` and `ServerResponse`.
-We are already using these as the `req` and `res` variables in our handler function, we just could not see them!
-Importing the types can help with editor tooling for autocomplete and jumping to type documentation.
+While not strictly necessary, we can import the type definitions which are already using from the Node `http` package.
+Declaring the types explicitly can help with editor tooling for autocomplete and jumping to type documentation,
+as well as make the code easier to understand.
 
-First we must install the `@types/node` package to expose the definitions.
-It can be a bit tricky - I installed the latest LTS Node version with NVM and got version `24.12.0`,
+First, we must install the `@types/node` package to expose the definitions.
+This can be a bit tricky - I installed the latest LTS Node version with NVM and got version `24.12.0`,
 but if I just run `npm install @types/node`, I will get the latest `@types/node` package which is on version 25.
-Further, the `@types/node` package does not release a version for every single minor or patch version of `node`.
+Further, most type definitions are not updated for every single minor or patch version of the associated package.
 
-Instead, just restrict it to the same major version:
+Instead, just restrict the types package to the same major version:
 
 ```shell
 npm install --save-dev @types/node@24
 ```
 
 Now we can add types to our Node server handler function.
+The types for the `req` and `res` variables in our handler function are `IncomingMessage` and `ServerResponse`.
+
 This line:
 ```js
 (req, res) => {
@@ -360,7 +349,7 @@ curl http://localhost:8080 -d 'hello, world'
 Finally, we can add the command to the `package.json` scripts as we did before.
 When using `npm run` with these scripts, we do not need `npx` as long as the package we are calling is installed:
 
-```ts
+```json
 "scripts": {
     "dev-js": "node src/server.ts",
     "dev-ts": "tsx ./src/server.ts"
@@ -374,3 +363,238 @@ As before, `npm run dev-ts` will echo the command:
 
 Server running at http://127.0.0.1:8080/
 ```
+
+Note that we still have not _compiled_ the code - that is next!
+
+## 4. Install, Configure, and Run the TypeScript Compiler
+
+### 4.1 Install TypeScript
+
+Run:
+
+```shell
+npm install --save-dev typescript
+```
+
+Check that it is working with `npx` again - use `--noEmit` to skip actually writing the compiler output to files:
+
+```shell
+npx tsc --noEmit src/server.ts
+```
+
+This should not produce any output, as the project has no errors.
+We can check how the errors would look by commenting out the first line of code with our type imports,
+then running again the `tsc` command again.
+This time we should see errors related to those missing types:
+
+```console
+src/server.ts:12:16 - error TS2304: Cannot find name 'createServer'.
+
+12 const server = createServer(
+                  ~~~~~~~~~~~~
+
+src/server.ts:13:11 - error TS2304: Cannot find name 'IncomingMessage'.
+
+13     (req: IncomingMessage, res: ServerResponse) => {
+             ~~~~~~~~~~~~~~~
+
+src/server.ts:13:33 - error TS2304: Cannot find name 'ServerResponse'.
+
+13     (req: IncomingMessage, res: ServerResponse) => {
+                                   ~~~~~~~~~~~~~~
+```
+
+### 4.2 Initialize TypeScript Compiler Config
+
+#### 4.2.1 Init Default Config
+
+We need a `tsconfing.json` to unlock all the power of the compiler.
+
+Run:
+```shell
+tsc --init
+```
+
+This creates a `tsconfig.json` file with some sensible defaults and hints on other config options we may want.
+Note that this is a JSONC file, meaning a flavor of JSON which supports comments.
+
+#### 4.2.2 Configure Input and Output Directories
+
+The first few lines offer us a hint of how to target files for compilation:
+```jsonc
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // File Layout
+    // "rootDir": "./src",
+    // "outDir": "./dist",
+// ...
+```
+
+We can uncomment both the `rootDir` and `outDir` keys to enable those settings:
+```jsonc
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./dist",
+// ...
+```
+
+As noted in the [`tsconfig` reference](https://www.typescriptlang.org/tsconfig/):
+
+> Importantly, rootDir does not affect which files become part of the compilation.
+> It has no interaction with the `include`, `exclude`, or `files` `tsconfig.json` settings.
+
+If we have any other TypeScript files which we do not want to include (likely config files like `eslint.config.ts`),
+then we can use the `exclude` key to skip them.
+We also want to exclude the compiler from looking at code that it previously built,
+meaning we need to exclude the `dist`  directory we just told it to write to.
+The `exclude` key is _not_ a compiler option, so do not nest it in where we just worked on `rootDir` and `outDir`.
+
+It can just go at the beginning or end of the file for now:
+
+```jsonc
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "exclude": [
+    "./dist",
+    "eslint.config.ts"
+  ],
+  "compilerOptions": {
+// ...
+```
+
+#### 4.2.3 Configure Type Discovery
+
+While TypeScript attempts to include any types found in `node_modules/@types`,
+this does not always work by default due to oddities in how packages declare their types.
+The default `tsconfig` offers a hint about this:
+
+```jsonc
+    "types": [],
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+```
+
+We already installed `@types/node` before, so we can just uncomment the suggestion:
+
+```jsonc
+    // For nodejs:
+    // "lib": ["esnext"],
+    "types": [
+      "node"
+    ],
+```
+
+We are not using TypeScript's built-in types yet, but we would want to uncomment the `lib` key as well if we did.
+It is worth taking a look at the config definitions for
+[`lib`](https://www.typescriptlang.org/tsconfig/#lib),
+[`types`](https://www.typescriptlang.org/tsconfig/#types),
+and [`typeRoots`](https://www.typescriptlang.org/tsconfig/#typeRoots).
+
+Now we are ready to compile!
+
+### 4.3 Compile!
+
+Now we can drop the `--noEmit` flag and actually produce the output:
+
+```shell
+npx tsc
+```
+
+We should get no errors in the console and see the files appear in the `dist` directory -
+run `tree dist` or `ls dist` to check:
+
+```console
+dist
+├── server.d.ts
+├── server.d.ts.map
+├── server.js
+└── server.js.map
+```
+
+More complex projects or those building for frontend components often require capabilities beyond what `tsc` offers -
+this is the realm of "bundlers" like Babel, Webpack, and Vite.
+Each of these has its own strengths and idiosyncrasies which are beyond the scope of this guide.
+
+In any case, `tsc --noEmit` is still often used as a quick type _checker_.
+
+We can add this to our `package.json`:
+
+```json
+"scripts": {
+    "dev": "tsx ./src/server.ts",
+    "tsc": "tsc --noEmit"
+  },
+```
+and run it as we have before:
+
+```shell
+npm run tsc
+```
+
+## 5. Review Config Files
+
+Our final `package.json` looks something like:
+```json
+{
+  "name": "js-ts-npm-starter-demo",
+  "version": "0.0.0-alpha.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx ./src/server.ts",
+    "tsc": "tsc --noEmit"
+  },
+  "dependencies": {
+    "node": "^24.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.4",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
+```
+
+And `tsconfig.json` looks like:
+```jsonc
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "exclude": [
+    "./dist",
+    "eslint.config.ts"
+  ],
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./dist",
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "nodenext",
+    "target": "esnext",
+    // For nodejs:
+    // "lib": ["esnext"],
+    "types": [
+      "node"
+    ],
+    // and npm install -D @types/node
+
+    // ...other default values from tsc --init
+  }
+} // end of file
+```
+
+## Conclusion
+
+We have entered the anomalous zone and somehow made it back,
+with a working Node.js app written in TypeScript - checked, and compiled, and run!
+
+This of course is only the beginning, and the terrors of the JavaScript ecosystem still stretch before us endlessly.
+
+I can only hope that by building a simple project from the ground up
+we have gained some understanding of the fundamental structure and tools at play and how they all fit together.
