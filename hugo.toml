@@ -9,8 +9,9 @@ theme = "hugo-basic-starter-template"
 [markup.highlight]
 style = "friendly"
 
-[taxonomies]
-tag = "tags"
+#[taxonomies]
+#tag = "tags"
+disableKinds = ['taxonomy', 'term']
 
 # gohugo.io/configuration/menus/
 [menus]
