@@ -4,6 +4,11 @@ title = "ScratchBuffer"
 languageCode = "en-us"
 
 theme = "hugo-basic-starter-template"
+[params]
+[params.site]
+[params.site.title]
+[params.site.title.header]
+textPrefix = "[[]]"
 
 [markup]
 [markup.highlight]
