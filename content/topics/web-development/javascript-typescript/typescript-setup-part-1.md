@@ -1,6 +1,6 @@
 +++
 title = "Modern TypeScript Project Setup with NPM, Part 1"
-description = "Write, Run, and Compile TypeScript with Node.js, `tsx`, and `tsc`"
+description = "Write, Run, and Compile TypeScript with Node.js, tsx, and tsc"
 
 date = 2025-12-13
 
