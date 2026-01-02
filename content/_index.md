@@ -15,4 +15,4 @@ and completely new content will continue to be added as well.
 
 In the meantime, check out the first post:
 
-**[Modern TypeScript Project Setup with NPM, Part 1](/topics/javascript-typescript/typescript-setup-part-1/)**.
+**[Modern TypeScript Project Setup with NPM, Part 1](/topics/web-development/javascript-typescript/typescript-setup-part-1/)**.
