@@ -40,7 +40,7 @@ We will:
 
 While you may likely move on to more sophisticated (read: complicated) web development tools,
 I always prefer to start with the fundamental building blocks.
-Higher-level frameworks are often operate as coordination layers which stitch together underlying tools,
+Higher-level frameworks often operate in part as coordination layers to stitch together underlying tools,
 but those layers of convenience can obscure how each part contributes to the whole.
 
 This is _not_ a quickstart - the aim is not just to do, but to understand.
