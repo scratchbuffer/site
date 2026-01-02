@@ -15,7 +15,7 @@ we have limped through the first quarter-century of the new millennium and
 JavaScript is still the lingua franca of the browser and web development in general.
 
 This terrifying ecosystem grows and mutates faster than the Shimmer in Annihilation,
-but much like film representation of the science-fiction-horror "anomalous zone",
+but much like that science-fiction-horror "anomalous zone",
 we gain nothing by ignoring it or hoping it disappears.
 
 So here we go!
@@ -27,7 +27,7 @@ I have restricted the problem area in two primary ways:
    Node.js and its ecosystem dominate the experience of JavaScript development.
 
 2. _Not_ choosing a bundler - JavaScript bundling and distribution are topics of their own,
-   and does not fit into our focus here of getting up and running with a sensible dev environment.
+   and do not fit into our focus here of getting up and running with a sensible dev environment.
 
 ## Goals
 
@@ -37,6 +37,13 @@ We will:
 * Utilize existing TypeScript types from Node packages and define our own custom types
 * Run the TypeScript application with `tsx`
 * Configure the `tsc` compiler to check and compile our TypeScript code
+
+While you may likely move on to more sophisticated (read: complicated) web development tools,
+I always prefer to start with the fundamental building blocks.
+Higher-level frameworks are often operate as coordination layers which stitch together underlying tools,
+but those layers of convenience can obscure how each part contributes to the whole.
+
+This is _not_ a quickstart - the aim is not just to do, but to understand.
 
 ## 0. Prerequisites
 
@@ -62,6 +69,8 @@ After NVM itself is set up, keep it simple and install an LTS version of Node an
 nvm install --lts
 nvm use --lts
 ```
+
+At time of writing, the latest LTS Node version is v24.
 
 ## 1. Initialize NPM Project
 
@@ -136,6 +145,14 @@ And note the new `dependencies` declaration in `package.json`:
   },
 ```
 
+By default, `npm` chooses to install the latest minor version compatible with the active Node version.
+As `nvm install --lts` installed Node v24, we get a `24.x` version in our project.
+
+The caret (`^`) syntax indicates that the minor and patch versions can be updated with `npm update`,
+but the major version will remain at 24 unless explicitly changed.
+
+The full semantic versioning spec can be found in the [`node-semver`](https://github.com/npm/node-semver) README.
+
 ### 2.2 Create a Node Echo Server
 
 Add the following code (expanded upon from the Node.js docs [example](https://nodejs.org/docs/latest/api/synopsis.html#example))
@@ -202,7 +219,7 @@ And check the response:
 ### 2.4 Add the Node Run Command to `package.json` Scripts
 
 Fill in the `scripts` key with the command we just used -
-I chose `dev-node` to differentiate with Typescript commands we will add later:
+I chose `dev-js` to differentiate with TypeScript commands we will add later:
 ```json
 "scripts": {
   "dev-js": "node src/server.ts"
@@ -233,7 +250,7 @@ We can choose between [`ts-node`](https://typestrong.org/ts-node/) and [`tsx`](h
 
 The differences are minimal for our current needs - `ts-node` compiles the TypeScript code before running,
 while `tsx` skips this step and just runs it.
-The compilation may be slow on a large project and may developers prefer the faster startup,
+The compilation may be slow on a large project and many developers prefer the faster startup,
 as they already have an IDE plugin checking types as they work.
 
 We can just choose `tsx` for now:
@@ -245,9 +262,9 @@ npm install --save-dev tsx
 
 ### 3.2.1 Import Types Already In Use
 
-While not strictly necessary, we can import the type definitions which are already using from the Node `http` package.
+While not strictly necessary, we can import the type definitions from the Node `http` package we are already utilizing.
 Declaring the types explicitly can help with editor tooling for autocomplete and jumping to type documentation,
-as well as make the code easier to understand.
+as well as just make the code easier to understand.
 
 First, we must install the `@types/node` package to expose the definitions.
 This can be a bit tricky - I installed the latest LTS Node version with NVM and got version `24.12.0`,
@@ -260,8 +277,8 @@ Instead, just restrict the types package to the same major version:
 npm install --save-dev @types/node@24
 ```
 
-Now we can add types to our Node server handler function.
-The types for the `req` and `res` variables in our handler function are `IncomingMessage` and `ServerResponse`.
+Now we can add types to our Node server.
+The types for the request and response variables in our handler function are `IncomingMessage` and `ServerResponse`.
 
 This line:
 ```js
@@ -274,13 +291,14 @@ becomes:
 
 ### 3.2.2 Define Custom Types
 
-We can also add our own types to make the code a bit cleaner -
+We can also add our own types to make the code a bit cleaner.
+
 I am not a fan of having important strings sitting inline in code,
 like the `'data'` `'end'` and `'error'` events that we listen for in the handler with `req.on('data', ...)`, etc.
-These event definitions from the parent class of `IncomingMessage`, `stream.Readable`,
+These event definitions are from the parent class of `IncomingMessage`, `stream.Readable`,
 but a quick scan of the type docs show us that there are no exported constants we can use in place of inline strings.
 
-We can convert these to a TypeScript enum:
+We can declare these ourselves with a TypeScript enum:
 ```ts
 enum StreamEvent {
     DATA = 'data',
@@ -349,7 +367,8 @@ curl http://localhost:8080 -d 'hello, world'
 ```
 
 Finally, we can add the command to the `package.json` scripts as we did before.
-When using `npm run` with these scripts, we do not need `npx` as long as the package we are calling is installed:
+When using `npm run` with these scripts,
+we do not need `npx` as long as the package we are calling is installed in the project:
 
 ```json
 "scripts": {
@@ -385,8 +404,8 @@ npx tsc --noEmit src/server.ts
 ```
 
 This should not produce any output, as the project has no errors.
-We can check how the errors would look by commenting out the first line of code with our type imports,
-then running again the `tsc` command again.
+To see some errors, comment out the first first line of the code with our type imports,
+then run the `tsc` command again.
 This time we should see errors related to those missing types:
 
 ```console
@@ -422,7 +441,7 @@ Note that this is a JSONC file, meaning a flavor of JSON which supports comments
 
 #### 4.2.2 Configure Input and Output Directories
 
-The first few lines offer us a hint of how to target files for compilation:
+The first few lines offer a hint of how to target files for compilation:
 ```jsonc
 {
   // Visit https://aka.ms/tsconfig to read more about this file
