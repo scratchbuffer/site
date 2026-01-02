@@ -3,6 +3,8 @@ title = "ScratchBuffer"
 
 languageCode = "en-us"
 
+enableGitInfo = true
+
 theme = "hugo-basic-starter-template"
 [params]
 [params.site]
@@ -16,7 +18,7 @@ style = "friendly"
 
 #[taxonomies]
 #tag = "tags"
-disableKinds = ['taxonomy', 'term']
+#disableKinds = ['taxonomy', 'term']
 
 # gohugo.io/configuration/menus/
 [menus]
