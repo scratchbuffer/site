@@ -9,11 +9,11 @@
 </script>
 
 
-{{- with resources.Get "js/analytics.js" }}
+{{- with resources.Get "js/umami-analytics.js" }}
     {{- $opts := dict
     "minify" (not hugo.IsDevelopment)
     "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/analytics.js"
+    "targetPath" "js/umami-analytics.js"
     }}
     {{- with . | js.Build $opts }}
         {{- if hugo.IsDevelopment }}
