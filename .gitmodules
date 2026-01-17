@@ -1,3 +1,6 @@
 [submodule "themes/hugo-basic-starter-template"]
 	path = themes/hugo-basic-starter-template
 	url = https://github.com/inflite-dev/hugo-basic-starter-template.git
+[submodule "themes/hugo-tailwind-starter-template"]
+	path = themes/hugo-tailwind-starter-template
+	url = https://github.com/inflite-dev/hugo-tailwind-starter-template.git
