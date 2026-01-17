@@ -1,6 +1,6 @@
 +++
 title = "Modern TypeScript Project Setup with NPM, Part 1"
-description = "Write, Run, and Compile TypeScript with Node.js, tsx, and tsc"
+description = "Write, Run, and Compile Node.js with TypeScript"
 
 tags = ['javascript', 'typescript', 'NPM']
 
@@ -49,17 +49,17 @@ This is _not_ a quickstart - the aim is not just to do, but to understand.
 
 ### 0.1 Understand Tool Selections
 
-#### 0.1.1 ECMAScript Modules, Not CommonJS
-
-For compatibility reasons, CommonJS (CJS) syntax is still the default for new NPM projects,
-but ECMAScript module (ESM) syntax is the official standard for JavaScript and is better-supported in TypeScript.
-Node first shipped with module support in 2019 with Node version 12.
-
-#### 0.1.2 TypeScript, Not (just) JavaScript
+#### 0.1.1 TypeScript, Not (just) JavaScript
 
 As lamented above, we cannot opt out of the JavaScript ecosystem completely without becoming monks
 (writing Rust to compile to WebAssembly).
 We _can_ however be good citizens of this apocalyptic ecosystem and use types in our software.
+
+#### 0.1.2 ECMAScript Modules, Not CommonJS
+
+For compatibility reasons, CommonJS (CJS) syntax is still the default for new NPM projects,
+but ECMAScript module (ESM) syntax is the official standard for JavaScript and is better-supported in TypeScript.
+Node first shipped with module support in 2019 with Node version 12.
 
 ### 0.2 Install Node and NPM
 
