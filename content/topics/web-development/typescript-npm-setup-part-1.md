@@ -2,7 +2,12 @@
 title = "Modern TypeScript Project Setup with NPM, Part 1"
 description = "Write, Run, and Compile Node.js with TypeScript"
 
-tags = ['javascript', 'typescript', 'NPM']
+slug = "typescript-npm-setup-part-1"
+aliases = [
+    "/topics/web-development/javascript-typescript/typescript-setup-part-1/"
+]
+
+tags = ["javascript", "typescript", "NPM"]
 
 date = 2025-12-15
 
