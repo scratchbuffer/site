@@ -4,3 +4,6 @@
 [submodule "themes/hugo-tailwind-starter-template"]
 	path = themes/hugo-tailwind-starter-template
 	url = https://github.com/inflite-dev/hugo-tailwind-starter-template.git
+[submodule "themes/scratchbuffer"]
+	path = themes/scratchbuffer
+	url = git@github.com:scratchbuffer/site-theme.git
