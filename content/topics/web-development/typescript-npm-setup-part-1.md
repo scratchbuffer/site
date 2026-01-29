@@ -1,4 +1,5 @@
 +++
+type = "article"
 title = "Modern TypeScript Project Setup with NPM, Part 1"
 description = "Write, Run, and Compile Node.js with TypeScript"
 
@@ -9,8 +10,9 @@ aliases = [
 
 tags = ["javascript", "typescript", "NPM"]
 
-date = 2025-12-15
 
+
+date = 2025-12-15
 +++
 
 ## Preface
