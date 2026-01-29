@@ -8,9 +8,7 @@ aliases = [
     "/topics/web-development/javascript-typescript/typescript-setup-part-1/"
 ]
 
-tags = ["javascript", "typescript", "NPM"]
-
-
+tags = ['JavaScript', 'TypeScript', 'NPM']
 
 date = 2025-12-15
 +++
