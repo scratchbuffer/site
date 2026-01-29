@@ -1,8 +1,8 @@
 +++
+type = "notecard"
 title = "A Better Launcher Script for JetBrains IDEs on Linux"
 description = "Suppress Logs and Prevent IDE Closing on Shell Exit" 
 
-# Detach IDE from Shell Session
 
 tags = ['JetBrains', 'Linux', 'Shell']
 
