@@ -1,8 +1,9 @@
 +++
 type = "notecard"
 title = "A Better Launcher Script for JetBrains IDEs on Linux"
-description = "Suppress Logs and Prevent IDE Closing on Shell Exit" 
+description = "Suppress Logs and Prevent IDE Closing on Shell Exit"
 
+slug = "jetbrains-ide-launcher-script"
 
 tags = ['JetBrains', 'Linux', 'Shell']
 
@@ -31,7 +32,7 @@ as the spawned IDE process is attached to the shell session.
 The wrapper script will call the original launcher script and pass through all arguments,
 but suppress all the log output and detach the IDE process from the shell session.
 
-For GoLand, we can create a wrapper named `goland.sh`:
+Using GoLand as the example, we can create a wrapper named `goland.sh`:
 
 ```shell
 #! /usr/bin/env bash
@@ -59,3 +60,13 @@ And ensure the location is added to your `PATH` by your shell rc files(`.bashrc`
 ```shell
 export PATH="$HOME/.local/bin:$PATH"
 ```
+
+## Q.E.D.
+
+The new wrapper script can be called like the original one -
+`goland.sh` with no arguments will open the IDE with the current directory as a project,
+or provide a path to open a project from a different location.
+
+## References
+
+* [StackExchange: Difference between nohup, disown and &](https://unix.stackexchange.com/questions/3886/difference-between-nohup-disown-and)
