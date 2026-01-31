@@ -33,6 +33,11 @@ pageRef = '/topics'
 weight = 20
 
 #[[menus.main]]
+#name = 'Note Cards'
+#pageRef = '/note-cards'
+#weight = 30
+
+#[[menus.main]]
 #name = 'Section A'
 #pageRef = '/section-a'
 #weight = 20
