@@ -8,7 +8,6 @@ slug = "jetbrains-ide-launcher-script"
 tags = ['JetBrains', 'Linux', 'Shell']
 
 date = 2026-01-25
-
 +++
 
 ## Problem
