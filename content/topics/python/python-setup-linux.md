@@ -9,8 +9,10 @@ slug = "python-setup-linux"
 
 tags = ['Linux', 'Python']
 
-date = 2026-02-02
+date = 2025-04-13
 +++
+
+Note: a previous version of this article originally appeared at [francoposa.io](https://francoposa.io/).
 
 ## Goals
 
