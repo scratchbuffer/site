@@ -10,7 +10,7 @@ Welcome!
 The site design is a work in progress, as you can see.
 Please excuse the minimal styling while we work.
 
-The content here takes two forms: Articles and Note Cards.
+The content here takes two forms: **Articles** and **Note Cards**.
 
 **Articles** are classic, full-length posts: details guides, tutorials, or deep dives into a concept.
 
@@ -22,6 +22,6 @@ and completely new content will continue to be added as well.
 
 In the meantime, check out the first few posts:
 
-* _**[Modern TypeScript Project Setup with NPM, Part 1](/topics/web-development/typescript-npm-setup-part-1/)**_
-* _**[Python Setup for Linux with Pyenv](/topics/python/python-setup-linux/)**_
-* _**[A Better Launcher Script for JetBrains IDEs on Linux](/topics/dev-tools/jetbrains-ide-launcher-script/)**_
+* **[Modern TypeScript Project Setup with NPM, Part 1](/topics/web-development/typescript-npm-setup-part-1/)**
+* **[Python Setup for Linux with Pyenv](/topics/python/python-setup-linux/)**
+* **[A Better Launcher Script for JetBrains IDEs on Linux](/topics/dev-tools/jetbrains-ide-launcher-script/)**
