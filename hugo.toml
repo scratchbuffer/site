@@ -23,12 +23,12 @@ style = "friendly"
 # gohugo.io/configuration/menus/
 [menus]
 [[menus.main]]
-name = 'Home'
+name = 'home'
 pageRef = '/'
 weight = 10
 
 [[menus.main]]
-name = 'Topics'
+name = 'topics'
 pageRef = '/topics'
 weight = 20
 
