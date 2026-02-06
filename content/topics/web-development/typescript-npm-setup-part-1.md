@@ -471,9 +471,9 @@ We can uncomment both the `rootDir` and `outDir` keys to enable those settings:
 As noted in the [`tsconfig` reference](https://www.typescriptlang.org/tsconfig/):
 
 > Importantly, rootDir does not affect which files become part of the compilation.
-> It has no interaction with the `include`, `exclude`, or `files` `tsconfig.json` settings.
+> It has no interaction with the `include`, `exclude`, or `files` settings in `tsconfig.json`.
 
-If we have any other TypeScript files which we do not want to include (likely config files like `eslint.config.ts`),
+If we have any other TypeScript files which we do not want to include (such as config files like `eslint.config.ts`),
 then we can use the `exclude` key to skip them.
 We also want to exclude the compiler from looking at code that it previously built,
 meaning we need to exclude the `dist`  directory we just told it to write to.
