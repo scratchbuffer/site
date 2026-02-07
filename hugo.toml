@@ -32,6 +32,11 @@ name = 'topics'
 pageRef = '/topics'
 weight = 20
 
+[[menus.main]]
+name = 'tags'
+pageRef = '/tags'
+weight = 30
+
 #[[menus.main]]
 #name = 'Note Cards'
 #pageRef = '/note-cards'
