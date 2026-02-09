@@ -30,7 +30,6 @@ I have restricted the problem area in two primary ways:
 
 1. Choosing NPM - While many tried-and-true (Yarn) and upstart (Deno) alternatives have their virtues,
    Node.js and its ecosystem dominate the experience of JavaScript development.
-
 2. _Not_ choosing a bundler - JavaScript bundling and distribution are topics of their own,
    and do not fit into our focus here of getting up and running with a sensible dev environment.
 
