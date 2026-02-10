@@ -20,8 +20,4 @@ copy and paste the solution and be on your way, or stick around for a short expl
 Articles will be migrated incrementally from [francoposa.io](https://francoposa.io),
 and completely new content will continue to be added as well.
 
-In the meantime, check out the first few posts:
-
-* **[Modern TypeScript Project Setup with NPM, Part 1](/topics/web-development/typescript-npm-setup-part-1/)**
-* **[Python Setup for Linux with Pyenv](/topics/python/python-setup-linux/)**
-* **[A Better Launcher Script for JetBrains IDEs on Linux](/topics/dev-tools/jetbrains-ide-launcher-script/)**
+In the meantime, check out the featured posts!
