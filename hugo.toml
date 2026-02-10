@@ -8,6 +8,12 @@ enableGitInfo = true
 theme = "scratchbuffer"
 [params]
 [params.site]
+featuredPages = [
+  "/topics/web-development/typescript-npm-setup-part-1/",
+  "/topics/python/python-setup-linux/",
+  "/topics/dev-tools/jetbrains-ide-launcher-script/",
+]
+
 [params.site.title]
 [params.site.title.header]
 textPrefix = "[[]]"
