@@ -1,7 +1,7 @@
 +++
 type = "article"
-title = "Modern TypeScript Project Setup with NPM, Part 1"
-description = "Lint and Format TypeScript with ESLint and Prettier"
+title = "Modern TypeScript Project Setup with NPM, Part 2"
+description = "Lint and Format TypeScript with JavaScript Standard Style"
 
 slug = "typescript-npm-setup-part-2"
 
@@ -29,3 +29,29 @@ Our goal here is to minimize the detrimental effects of endless optionality -
 to stop fiddling with configuration knobs or different function syntaxes and just produce code!
 
 ## Goals
+
+We will:
+
+* Initialize and run the JavaScript Standard Style linter and formatter
+* Fix the TypeScript style mistakes we made in Part 1
+
+## 0. Prerequisites
+
+### 0.1 Understand Tool Selection: JavaScript Standard Style
+
+While there is no one official linter or formatter for the JavaScript ecosystem,
+[StandardJS](https://standardjs.com) comes pretty close.
+
+It is the formatter used by Node/NPM, GitHub, Express, Electron, and many other foundational projects,
+has a large, active community of developers and users,
+and has an officially-supported TypeScript variant which we will use here.
+
+Most importantly it has zero config!
+No options, no bikeshedding, just run it and move on.
+
+If you do not like the formatting choices chosen by StandardJS, keep it to yourself.
+Wasting energy on debates and configuration for linters and formatters
+is far worse than any particular style oddity could ever be.
+God help you if you introduce alternatives like ESLint and Prettier to your team,
+with their broken install scripts and configuration black holes
+which can only be viewed as intentionally hostile to actually getting work done.
