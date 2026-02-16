@@ -6,6 +6,13 @@ languageCode = "en-us"
 enableGitInfo = true
 
 theme = "scratchbuffer"
+
+tableOfContents = true
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 2
+ordered = false
+
 [params]
 [params.site]
 featuredPages = [
