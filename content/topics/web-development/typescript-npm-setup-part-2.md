@@ -19,11 +19,13 @@ we entered the anomalous zone and came back with a basic Node server project wit
 which can be type-checked, compiled and run with `tsx` and `tsc`.
 
 Right back into the Shimmer we go - not because it is easy, but because for some reason we have to... or want to.
-The ecosystem for JavaScript, which was created in two weeks and has cursed us ever since,
-has certainly only grown larger and more terrifying since we first encountered in it Part 1.
+The JavaScript ecosystem has certainly only grown larger and more terrifying since we first encountered in it Part 1.
 But this time, we will use some new equipment to help protect us: linting and formatting.
 
 While static type checking provides some protection against the runtime type errors which plague dynamic languages,
 it does little to help with enforcing general good coding practices for any given language.
 
-Our goal here within the JavaScript ecosystem
+Our goal here is to minimize the detrimental effects of endless optionality -
+to stop fiddling with configuration knobs or different function syntaxes and just produce code!
+
+## Goals
