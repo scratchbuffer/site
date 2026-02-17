@@ -1,6 +1,6 @@
 +++
 type = "article"
-title = "Python Setup for Linux with Pyenv"
+title = "Python Setup for Linux with Pyenv and VirtualenvWrapper"
 description = "Simple and Flexible Python Version and Virtualenv Management"
 
 # summary: "Linux Development Libraries, Pyenv, and Virtualenvwrapper"
