@@ -51,7 +51,7 @@ Installing only `development-libs` will also pull in the libraries we need from 
 but we can explicitly list both in the installation command for a more informative `dnf` history:
 
 ```shell
-% sudo dnf group install -y c-development development-libs
+sudo dnf group install -y c-development development-libs
 ```
 
 Finally, we can optionally install two more libraries:
@@ -61,7 +61,7 @@ Without them, the Python build will still succeed, but it will complain and spit
 To set our minds at ease, we can install both before moving on:
 
 ```shell
-% sudo dnf install -y sqlite-devel tk-devel
+sudo dnf install -y sqlite-devel tk-devel
 ```
 
 ### 1.2 Option 2: Install Individual Fedora Packages
@@ -77,7 +77,7 @@ We can infer the extra packages it wants from the warnings at the end of the bui
 So all in, to support a Python install built from source:
 
 ```shell
-% sudo dnf install -y bzip2-devel gcc libffi-devel ncurses-devel openssl-devel readline-devel sqlite-devel tk-devel xz-devel zlib-devel
+sudo dnf install -y bzip2-devel gcc libffi-devel ncurses-devel openssl-devel readline-devel sqlite-devel tk-devel xz-devel zlib-devel
 ```
 
 ## 2. Install and Set Up Pyenv
@@ -87,14 +87,14 @@ So all in, to support a Python install built from source:
 We can use the official installer:
 
 ```shell
-% curl -fsSL https://pyenv.run | bash
+curl -fsSL https://pyenv.run | bash
 ```
 
 That's it - sort of.
 
 ### 2.2 Set Up Pyenv
 The installer will spit out instructions about adding Pyenv initialization to the shell rc files.
-We can do a slightly improved version :
+We can do a slightly improved version:
 
 ```shell
 # PYENV
@@ -120,7 +120,7 @@ Following the [official instructions](https://github.com/pyenv/pyenv-virtualenvw
 clone the management scripts into the Pyenv plugins directory:
 
 ```shell
-% git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git $(pyenv root)/plugins/pyenv-virtualenvwrapper
+git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git $(pyenv root)/plugins/pyenv-virtualenvwrapper
 ```
 
 This step alone does not install Virtualenvwrapper - it only enables the `pyenv virtualenvwrapper` subcommand.
@@ -143,11 +143,20 @@ export WORKON_HOME=$HOME/.virtualenvs
 Install some versions of Python we want to work with:
 
 ```shell
-% pyenv install 3.12.8
-# ...
-% pyenv install 3.13.2
-# ...
-% pyenv versions
+pyenv install 3.12.8
+```
+```shell
+pyenv install 3.13.2
+```
+
+And check the available versions:
+```shell
+pyenv versions
+```
+
+The output from `pyenv versions` should show a system version and the installed versions,
+and indicate if any are the default:
+```console
   system
   3.12.8
 * 3.13.2 (set by PYENV_VERSION environment variable)
@@ -155,70 +164,64 @@ Install some versions of Python we want to work with:
 
 ### 4.2 Create a Virtual Environment With the Active Python Version
 Virtualenvwrapper's `mkvirtualenv` ("make virtual environment") command
-will use whichever Python version you have active:
+will use whichever Python version you have active.
 
+Start with a quick example using the default version set by `PYENV_VERSION` -
+in this example that is `3.13.2`:
 ```shell
-% pyenv version
-3.13.2 (set by PYENV_VERSION environment variable)
-% mkvirtualenv temp3-13-2
-# ...
-(temp3-13-2) % which python
+mkvirtualenv temp3-13-2
+```
+
+The virtualenv will be actived on creation.
+Verify the version and Python binary location from within the virtualenv:
+```shell
+which python
+python --version
+```
+
+Output will be:
+```console
 /Users/franco/.virtualenvs/temp3-13-2/bin/python
-(temp3-13-2) %  python --version
 Python 3.13.2
 ```
 
 ### 4.3 Create a Virtual Environment With a Different Python Version
 We can also tell `virtualenvwrapper` which Python version a new virtualenv should be created with,
 without needing to mess with Pyenv directly or worry about the current environment:
-
 ```shell
-(temp3-13-2) % pyenv version
-3.13.2 (set by PYENV_VERSION environment variable)
-(temp3-13-2) % mkvirtualenv temp3-12-8 --python ~/.pyenv/versions/3.12.8/bin/python
-# ...
-(temp3-12-8) % which python
+mkvirtualenv temp3-12-8 --python ~/.pyenv/versions/3.12.8/bin/python
+```
+
+Then verify again with `which python` and/or `python --version`:
+```console
 /Users/franco/.virtualenvs/temp3-12-8/bin/python
-(temp3-12-8) % python --version
 Python 3.12.8
 ```
 
 ### 4.4 List all Virtual Environments
 
-```shell
-(temp3-12-8) % lsvirtualenv -b  # -b for "brief", output takes up less space
+Run `lsvirtualenv --b` (`-b for "brief" - the output will take up fewer lines):
+
+```console
 temp3-12-8
 temp3-13-2
 ```
 
 ### 4.5 Exit the Virtual Environment
 
-```shell
-(temp3-12-8) % deactivate
-# now we are back to normal, outside the virtualenvs
-% which python
-~/.pyenv/shims/python
-% python --version
-Python 3.13.2
-% pyenv versions
-  system
-  3.12.8
-* 3.13.2 (set by PYENV_VERSION environment variable)
-```
+Run `deactivate` to exit - now we are back to normal, outside the virtualenvs.
 
-```shell
-% lsvirtualenv -b  # -b for "brief", output takes up less space
-temp3-12-8
-temp3-13-2
+Verify again with `which python` and `python --version`:
+```console
+~/.pyenv/shims/python
+Python 3.13.2
 ```
 
 ### Clean Up
 Wipe out any virtualenvs you no longer need:
 
 ```shell
-% rmvirtualenv temp3-12-8 temp3-13-2
-Removing temp3-12-8...
-Removing temp3-13-2...
+rmvirtualenv temp3-12-8 temp3-13-2
 ```
 
 ## Conclusion
