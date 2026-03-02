@@ -62,7 +62,7 @@ a simple Node echo server written in TypeScript,
 with standard NPM Package management.
 
 Jump to the final [server code](/topics/web-development/typescript-npm-setup-part-1/#322-define-custom-types)
-and the final [`package.json` and `tsconfig.json`](http://localhost:1313/topics/web-development/typescript-npm-setup-part-1/#5-review-config-files)
+and the final [`package.json` and `tsconfig.json`](/topics/web-development/typescript-npm-setup-part-1/#5-review-config-files)
 to see our starting point.
 
 ## 1. Install and Run the StandardJS TypeScript Variant
