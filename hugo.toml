@@ -6,6 +6,7 @@ languageCode = "en-us"
 enableGitInfo = true
 
 theme = "scratchbuffer"
+#theme = "hugo-tailwind-starter-template"
 
 tableOfContents = true
 [markup.tableOfContents]
@@ -18,7 +19,7 @@ ordered = false
 featuredPages = [
   "/topics/web-development/typescript-npm-setup-part-1/",
   "/topics/python/python-setup-linux/",
-  "/topics/dev-tools/jetbrains-ide-launcher-script/",
+  "/topics/developer-tools/jetbrains-ide-launcher-script/",
 ]
 
 [params.site.title]

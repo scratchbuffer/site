@@ -11,5 +11,5 @@ scratchbuffer.net
 ### [Python](https://scratchbuffer.net/topics/python/)
 * #### [Python Setup for Linux with Pyenv](https://scratchbuffer.net/topics/python/python-setup-linux/)
 
-### [Developer Tools](https://scratchbuffer.net/topics/dev-tools/)
-* #### [A Better Launcher Script for JetBrains IDEs on Linux](https://scratchbuffer.net/topics/dev-tools/jetbrains-ide-launcher-script/)
+### [Developer Tools](https://scratchbuffer.net/topics/developer-tools/)
+* #### [A Better Launcher Script for JetBrains IDEs on Linux](https://scratchbuffer.net/topics/developer-tools/jetbrains-ide-launcher-script/)
