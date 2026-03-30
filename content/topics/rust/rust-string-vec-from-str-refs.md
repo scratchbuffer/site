@@ -25,3 +25,35 @@ let expected = vec![
     String::from(" "),
 ];
 ```
+
+## Quick Solution
+
+### Option 1: `map` + `to_vec`
+
+This is the most concise:
+
+```rust
+let expected = [" ", "{% comment %}", " ", "{% endcomment %}", " "]
+    .map(String::from)
+    .to_vec();
+```
+
+### Option 2: `iter` + `map` + `collect`
+
+This is a bit more verbose but can be applied to more iterable types than just `vec`:
+
+```rust
+let expected: Vec<String> = [" ", "{% comment %}", " ", "{% endcomment %}", " "]
+    .iter()
+    .map(|&s| s.into())
+    .collect();
+```
+
+## Q.E.D.
+
+Stay Rusty.
+
+## References
+
+* [Rust docs: `slice.to_vec`](https://doc.rust-lang.org/std/primitive.slice.html#method.to_vec)
+* [Rust docs: `Iterator.collect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect)
