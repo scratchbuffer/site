@@ -3,7 +3,7 @@ type = "notecard"
 title = "Create a Vector of Owned Strings from &str Collection in Rust"
 description = "Concise One-Liners for `Vec<String>` from `[&str, n]`"
 
-slug = "jetbrains-ide-launcher-script"
+slug = "rust-string-vec-from-str-refs"
 
 tags = ['JetBrains', 'Linux', 'Shell']
 
