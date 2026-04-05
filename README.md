@@ -11,5 +11,8 @@ scratchbuffer.net
 ### [Python](https://scratchbuffer.net/topics/python/)
 * #### [Python Setup for Linux with Pyenv](https://scratchbuffer.net/topics/python/python-setup-linux/)
 
+### [Rust](https://francoposa.io/resources/rust/)
+* #### [Create a Vector of Owned Strings from &str Collection in Rust](https://francoposa.io/resources/rust/rust-string-vec-from-str-refs/)
+
 ### [Developer Tools](https://scratchbuffer.net/topics/developer-tools/)
 * #### [A Better Launcher Script for JetBrains IDEs on Linux](https://scratchbuffer.net/topics/developer-tools/jetbrains-ide-launcher-script/)
