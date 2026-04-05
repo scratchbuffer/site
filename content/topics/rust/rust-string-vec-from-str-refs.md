@@ -5,7 +5,7 @@ description = "Concise One-Liners for `Vec<String>` from `[&str, n]`"
 
 slug = "rust-string-vec-from-str-refs"
 
-tags = ['JetBrains', 'Linux', 'Shell']
+tags = ['Rust']
 
 date = 2026-01-25
 +++
