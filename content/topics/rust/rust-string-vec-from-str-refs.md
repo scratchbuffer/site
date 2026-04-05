@@ -7,7 +7,7 @@ slug = "rust-string-vec-from-str-refs"
 
 tags = ['Rust']
 
-date = 2026-01-25
+date = 2026-03-29
 +++
 
 ## Problem
