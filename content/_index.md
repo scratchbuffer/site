@@ -16,4 +16,4 @@ copy and paste the solution and be on your way, or stick around for a short expl
 Articles will be migrated incrementally from [francoposa.io](https://francoposa.io),
 and completely new content will continue to be added as well.
 
-In the meantime, check out the featured posts!
+In the meantime, check out the [featured posts](#featured-pages)!
