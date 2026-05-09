@@ -7,7 +7,7 @@ description = "Worry-free Python Environment Setup for MacOS"
 
 slug = "python-setup-macos"
 
-tags = ['Linux', 'MacOS']
+tags = ['MacOS', 'Python']
 
 date = 2020-02-24
 +++
