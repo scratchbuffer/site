@@ -53,13 +53,13 @@ This is _not_ a quickstart - the aim is not just to do, but to understand.
 
 ### 0.1 Understand Tool Selections
 
-#### 0.1.1 TypeScript, Not (just) JavaScript
+#### TypeScript, Not (just) JavaScript
 
 As lamented above, we cannot opt out of the JavaScript ecosystem completely without becoming monks
 (writing Rust to compile to WebAssembly).
 We _can_ however be good citizens of this apocalyptic ecosystem and use types in our software.
 
-#### 0.1.2 ECMAScript Modules, Not CommonJS
+#### ECMAScript Modules, Not CommonJS
 
 For compatibility reasons, CommonJS (CJS) syntax is still the default for new NPM projects,
 but ECMAScript module (ESM) syntax is the official standard for JavaScript and is better-supported in TypeScript.
@@ -264,7 +264,7 @@ npm install --save-dev tsx
 
 ### 3.2 Add Types to the Echo Server Code
 
-### 3.2.1 Import Types Already In Use
+### Import Types Already In Use
 
 While not strictly necessary, we can import the type definitions from the Node `http` package we are already utilizing.
 Declaring the types explicitly can help with editor tooling for autocomplete and jumping to type documentation,
@@ -293,7 +293,7 @@ becomes:
 (req: IncomingMessage, res: ServerResponse) => {
 ```
 
-### 3.2.2 Define Custom Types
+### Define Custom Types
 
 We can also add our own types to make the code a bit cleaner.
 
@@ -431,7 +431,7 @@ src/server.ts:13:33 - error TS2304: Cannot find name 'ServerResponse'.
 
 ### 4.2 Initialize TypeScript Compiler Config
 
-#### 4.2.1 Init Default Config
+#### Init Default Config
 
 We need a `tsconfing.json` to unlock all the power of the compiler.
 
@@ -443,7 +443,7 @@ tsc --init
 This creates a `tsconfig.json` file with some sensible defaults and hints on other config options we may want.
 Note that this is a JSONC file, meaning a flavor of JSON which supports comments.
 
-#### 4.2.2 Configure Input and Output Directories
+#### Configure Input and Output Directories
 
 The first few lines offer a hint of how to target files for compilation:
 ```jsonc
@@ -491,7 +491,7 @@ It can just go at the beginning or end of the file for now:
 // ...
 ```
 
-#### 4.2.3 Configure Type Discovery
+#### Configure Type Discovery
 
 While TypeScript attempts to include any types found in `node_modules/@types`,
 this does not always work by default due to oddities in how packages declare their types.
