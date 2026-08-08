@@ -43,9 +43,9 @@ so the other backend options got shoved into the existing config namespace.
 
 ### 1.3 Set the Default Signing Key
 
-Point git at the SSH public key:
+Point git at the local SSH private key:
 ```shell
-git config --global user.signingkey ~/.ssh/id_ed25519.pub
+git config --global user.signingkey ~/.ssh/id_ed25519
 ```
 
 
@@ -106,6 +106,7 @@ Author: Foo Bar <foo@bar.net>
 Date:   Fri Aug 7 20:49:15 2026 -0700
 
     Signoff trailer, no crypto signature
+
     Signed-off-by: Foo Bar <foo@bar.net>
 
 commit 1e5d69bc336d7777b34408cf020ab0c64d3ab526
@@ -135,14 +136,10 @@ Date:   Fri Aug 7 19:21:22 2026 -0700
     Signed with SSH key: no signoff trailer
 ```
 
-#### Signed Commits With an Unknown SSH Key
+#### Signed Commits With an Unknown GPG Key
 
-The errors in the above case actually indicate more than that the commit is signed with _some_ key.
-Those errors - or the lack of a much louder error -
-show that it is signed with a key registered to the local SSH agent.
-
-A commit signed with a key _not_ registered with the local agent
-will show a longer error, prefixed with `gpg`:
+One final case we may see while experimenting is the failed verification of a GPG-signed commit.
+This is a much more visible error, prefixed with `gpg`:
 
 ```shell
 commit 5a13dda67abeaa0b036b874fd53c6e8117cf8c39 (origin/main, origin/HEAD)
@@ -155,4 +152,13 @@ Date:   Tue Jul 14 11:24:18 2026 -0700
     Initial commit
 ```
 
-This is the standard "Initial commit" created when initializing a repo in the GitHub UI.
+GPG is the original signing mechanism for git, and it will fail with this message
+rather than the `allowedSignersFile` and `No signature` messages for failed SSH verification.
+
+The above case is from the standard "Initial commit" created when initializing a repo in the GitHub UI.
+It was signed by GitHub's own GPG key, but the same effect will appear for any commit
+for which the signer's GPG public key is not registered with the local keyring.
+
+
+## 3. Configure GitHub to Accept SSH Key Signatures
+
