@@ -5,7 +5,7 @@ description = "Git & GitHub Setup for Signed Commits & Verification"
 
 slug = "git-commit-sign-ssh"
 
-tags = ['Git', 'GitHub', 'GitLab']
+tags = ['Git', 'GitHub']
 
 date = 2026-08-07
 +++
@@ -39,11 +39,11 @@ git config --global gpg.format ssh
 ```
 SSH is _not_ a format of GPG, despite the name of the config option.
 Git added support for further signing "backends" after initially only designing for GPG,
-so the other backend options got shoved into the existing config namespace.
+so the other backend options were shoved into the existing config namespace.
 
 ### 1.3 Set the Default Signing Key
 
-Point git at the local SSH private key:
+Point Git at the local SSH private key:
 ```shell
 git config --global user.signingkey ~/.ssh/id_ed25519
 ```
@@ -120,12 +120,12 @@ Date:   Fri Aug 7 20:47:48 2026 -0700
 
 The commit which _was_ signed with the SSH key will actually show an error.
 Local commit signature verification requires an "allowed signers" config file -
-an artifact of when git was primarily used without centralized hosted "forges" like GitHub or GitLab.
+an artifact of when Git was primarily used without centralized hosted "forges" like GitHub or GitLab.
 
 For now we can ignore this.
 The error messages are enough to tell that the commit is signed with _some_ key.
 
-In addition to the allowed signers error, git will insert a `No signature` error:
+In addition to the allowed signers error, Git will insert a `No signature` error:
 ```shell
 error: gpg.ssh.allowedSignersFile needs to be configured and exist for ssh signature verification
 commit 6784531c0a6a8e7c6b49161115ed19c6504af95f (HEAD -> main)
@@ -152,7 +152,7 @@ Date:   Tue Jul 14 11:24:18 2026 -0700
     Initial commit
 ```
 
-GPG is the original signing mechanism for git, and it will fail with this message
+GPG is the original signing mechanism for Git, and it will fail with this message
 rather than the `allowedSignersFile` and `No signature` messages for failed SSH verification.
 
 The above case is from the standard "Initial commit" created when initializing a repo in the GitHub UI.
@@ -162,3 +162,90 @@ for which the signer's GPG public key is not registered with the local keyring.
 
 ## 3. Configure GitHub to Accept SSH Key Signatures
 
+### 3.1 Require Signed Commits
+In order to verify GitHub's acceptance of the signed commits,
+we must have a branch on a repository protected by a "Require signed commits" rule.
+
+1. Go to the **Settings** tab on a repository
+2. Navigate to **Rulesets**
+3. Click the **New ruleset** dropdown and choose **New branch ruleset**
+4. Give the ruleset a name
+5. Under **Branch targeting criteria**, click the **Add target** and select a branch target
+6. Under the **Branch rules**, select the **Require signed commits** checkbox
+7. Scroll down to the bottom and click **Create**, or **Save changes** if editing an existing ruleset
+
+### 3.2 Verify GitHub Rejects a Signed Commit With an Unregistered Key
+
+At this point GitHub should reject the commit,
+assuming SSH key has not been registered as a _signing_ key.
+Registering it as an authentication key is a step almost everyone completes for new SSH key,
+but authentication keys and signing keys are distinct concepts.
+
+We can verify this and see what the error looks like.
+To simplify, we just want to push a single commit signed with the SSH key.
+We can delete the previous empty example commits and recreate the single signed one:
+
+```shell
+git reset --hard HEAD~3
+git commit --allow-empty -m "Signed with SSH key: no signoff trailer"
+```
+
+Make sure the new commit is on the same branch which is protected by the ruleset on GitHub.
+
+Now try to push:
+```shell
+% git push
+Enumerating objects: 1, done.
+Counting objects: 100% (1/1), done.
+Writing objects: 100% (1/1), 424 bytes | 424.00 KiB/s, done.
+Total 1 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: error
+: GH013: Repository rule violations found for refs/heads/main.
+remote: Review all repository rules at https://github.com/scratchbuffer/git-test/rules?ref=refs%2Fheads%2Fmain
+remote:
+remote: - Commits must have verified signatures.
+remote:   Found 1 violation:
+remote:
+remote:   78d74bf3876e0c8f749a0be785a8df0aab486118
+remote:
+To github.com:scratchbuffer/git-test.git
+ ! [remote rejected]
+ main -> main (push declined due to repository rule violations)
+
+error: failed to push some refs to 'github.com:scratchbuffer/git-test.git'
+```
+
+### 3.3 Register the SSH Key as a Signing Key
+
+1. Click the GitHub profile picture in the top right corner
+2. Choose **Settings** from the dropdown
+3. Navigate to **SSH and GPG keys**
+4. Click **New SSH key**
+5. In the **Add new SSH Key** form:
+   1. Give it a title
+   2. Select **Key type** as **Signing Key**
+   3. Paste the SSH public key
+6. Click **Add SSH key** to finish
+
+### 3.4 Verify GitHub Accepts the Signed Commit With the Registered Signing Key
+
+Now we should be able to push:
+```shell
+% git push
+Enumerating objects: 1, done.
+Counting objects: 100% (1/1), done.
+Writing objects: 100% (1/1), 424 bytes | 424.00 KiB/s, done.
+Total 1 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:scratchbuffer/git-test.git
+   5a13dda..78d74bf  main -> main
+```
+
+## Q.E.D
+
+We are good to push!
+This SSH-based setup keeps it nice and simple for anyone who does not want to bother with GPG keys.
+
+If you are interested in setting up the Allowed Signers file,
+it is documented in the `ssh-keygen(1)` man page,
+but the [GitLab doc on signing commits](https://docs.gitlab.com/user/project/repository/signed_commits/ssh/#verify-commits-locally)
+has a more friendly explanation.
