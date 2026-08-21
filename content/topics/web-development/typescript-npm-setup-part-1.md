@@ -254,7 +254,7 @@ We can choose between [`ts-node`](https://typestrong.org/ts-node/) and [`tsx`](h
 
 The differences are minimal for our current needs - `ts-node` compiles the TypeScript code before running,
 while `tsx` skips this step and just runs it.
-The compilation may be slow on a large project and many developers prefer the faster startup,
+The compilation may be slow on a large project and many engineers prefer the faster startup,
 as they already have an IDE plugin checking types as they work.
 
 We can just choose `tsx` for now:
